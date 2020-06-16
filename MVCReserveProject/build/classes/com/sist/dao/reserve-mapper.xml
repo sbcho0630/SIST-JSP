@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.dao.reserve-mapper">
+	
+	<select id="movieListData" resultType="MovieVO">
+		SELECT mno,title,poster,score,theaterno
+		FROM movie
+		WHERE type=1
+	</select>
+	
+	<!--  -->
+	<update id="movieTheaterUpdate" parameterType="MovieVO">
+		UPDATE movie SET
+		theaterNo=#{theaterno}
+		WHERE mno=#{mno}
+	</update>
+	
+	<select id="movieTheaterData" resultType="ReserveTheaterVO" parameterType="int">
+		SELECT tno,tname,tloc,tdate
+		FROM reserveTheater
+		WHERE tno=#{tno}
+	</select>
+	
+	<!-- reservetheater 테이블에 tdate값이 null이니, 적당한 랜덤값 만들어서 값 채워주자 -->
+	<update id="movieDateUpdate" parameterType="ReserveTheaterVO"> 
+		UPDATE ReserveTheater SET
+		tdate=#{tdate}
+		WHERE tno=#{tno}
+	</update>
+	
+	<!-- reservedate 테이블의 time값이 null이니, 적당한 랜덤값 만들어서 값 채워주자 -->
+	<update id="movieTimeUpdate" parameterType="ReserveDateVO">  
+		UPDATE ReserveDate SET
+		time=#{time}
+		WHERE tno=#{tno}
+	</update>
+	
+	<select id="movieTimeData" resultType="String" parameterType="int">
+		SELECT time FROM reserveDate
+		WHERE tno=#{tno}
+	</select>
+	
+	<select id="movieTimeData2" resultType="String" parameterType="int">
+		SELECT time FROM reserveTime
+		WHERE tno=#{tno}
+	</select>
+	
+	
+	<select id="movieIdCount" resultType="int" parameterType="String">
+		SELECT COUNT(*) FROM member
+		WHERE id=#{id}
+	</select>
+	
+	<select id="movieGetPwd" resultType="MemberVO" parameterType="String">
+		SELECT id,admin,name,pwd FROM member
+		WHERE id=#{pwd}
+	</select>
+	
+
+</mapper>
+
+
+
+
+
+
+
